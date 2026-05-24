@@ -1,0 +1,142 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-bone: var(--bone);
+  --color-bone-foreground: var(--bone-foreground);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-charcoal: var(--charcoal);
+  --color-accent-warm: var(--accent-warm);
+  --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --radius: 0.125rem;
+
+  /* Warm monochrome */
+  --bone: oklch(0.965 0.008 75);            /* warm off-white */
+  --bone-foreground: oklch(0.18 0.01 60);
+  --sand: oklch(0.91 0.018 75);             /* light sand */
+  --ink: oklch(0.16 0.008 60);              /* warm near-black */
+  --charcoal: oklch(0.32 0.008 60);
+  --accent-warm: oklch(0.55 0.04 60);       /* warm taupe — subtle accent */
+
+  --background: var(--bone);
+  --foreground: var(--bone-foreground);
+  --card: oklch(0.94 0.012 75);
+  --card-foreground: var(--bone-foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--card-foreground);
+  --primary: var(--ink);
+  --primary-foreground: var(--bone);
+  --secondary: var(--sand);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sand);
+  --muted-foreground: oklch(0.42 0.01 60);
+  --accent: var(--accent-warm);
+  --accent-foreground: var(--bone);
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: var(--bone);
+  --border: oklch(0.18 0.01 60 / 12%);
+  --input: oklch(0.18 0.01 60 / 14%);
+  --ring: var(--ink);
+}
+
+
+.dark { color-scheme: dark; }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  html.has-scroll-smooth { overflow: hidden; }
+  html.has-scroll-smooth body { overflow: hidden; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 0.92;
+  }
+  .font-display { font-family: var(--font-display); letter-spacing: 0.015em; }
+  .font-mono-label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 0.68rem;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  /* Reveal — initial state for GSAP */
+  .reveal { opacity: 0; transform: translateY(24px); }
+  .reveal-char { display: inline-block; opacity: 0; transform: translateY(60%); }
+  .reveal-line { overflow: hidden; }
+
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 60s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .hairline { height: 1px; background: currentColor; opacity: 0.15; }
+
+  /* Animated underline */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .5s cubic-bezier(.6,.05,.05,.9);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
